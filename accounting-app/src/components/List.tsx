@@ -1,14 +1,32 @@
 'use client';
 import React from 'react'
 import { useRouter } from 'next/navigation';
+import { doc, deleteDoc } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 
+type Record = {
+  id: string; // <-- 必須有 id
+  type: string;
+  amount: number;
+  note: string;
+};
 
 type ListProps = {
-  records: { type: string; amount: number; note: string }[];
+  records: Record[];
 };
 
 export default function List({ records }: ListProps) {
   const router = useRouter();
+ 
+
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteDoc(doc(db, 'records', id));
+    } catch (error) {
+      console.error('刪除失敗', error);
+    }
+  };
+
   const total = records.reduce((sum, r) => sum + (r.type === '收入' ? r.amount : -r.amount), 0);
 
   return (
@@ -30,7 +48,10 @@ export default function List({ records }: ListProps) {
           </div>
 
           <div className="w-24 text-right">
-            <button className="bg-gray-200 text-black px-4 py-1 rounded">
+            <button 
+            onClick={() => handleDelete(r.id)}
+            className="bg-gray-200 text-black px-4 py-1 rounded"
+            >
               刪除
             </button>
           </div>

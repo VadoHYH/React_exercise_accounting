@@ -16,6 +16,7 @@ import {
 } from 'firebase/firestore';
 
 interface Record {
+  id: string;
   type: string;
   amount: number;
   note: string;
@@ -24,7 +25,7 @@ interface Record {
 export default function AccountingPage() {
   const { user } = useAuth();
   const router = useRouter();
-  const [records, setRecords] = useState<{ type: string; amount: number; note: string }[]>([]);
+  const [records, setRecords] = useState<Record[]>([]);
 
   // 若未登入，自動導回首頁
   useEffect(() => {
@@ -40,7 +41,10 @@ export default function AccountingPage() {
     );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const newRecords = snapshot.docs.map((doc) => doc.data() as Record);
+      const newRecords = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...(doc.data() as Omit<Record, 'id'>), // 明確去除 id 再加入
+      }));
       setRecords(newRecords);
     });
 
@@ -48,13 +52,13 @@ export default function AccountingPage() {
   }, [user, router]);
 
   // 新增記帳紀錄並存入 Firestore
-  const handleAddRecord = async (record: Record) => {
+  const handleAddRecord = async (record: Omit<Record, 'id'>) => {
     if (!user) return;
     try {
       await addDoc(collection(db, 'records'), {
         ...record,
         uid: user.uid,
-        createdAt: new Date(),
+        createdAt: new Date(), // Firestore 時間戳
       });
     } catch (err) {
       console.error('儲存失敗', err);
