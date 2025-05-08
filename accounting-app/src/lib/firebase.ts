@@ -3,12 +3,12 @@ import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyC08CEgnNJbFZuq27-q3DfcZ67Z_1kZKaM",
-  authDomain: "reactexercise-accounting.firebaseapp.com",
-  projectId: "reactexercise-accounting",
-  storageBucket: "reactexercise-accounting.firebasestorage.app",
-  messagingSenderId: "289500032652",
-  appId: "1:289500032652:web:df53d73d8cb858c0d2d5a9"
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
 // 初始化 Firebase
