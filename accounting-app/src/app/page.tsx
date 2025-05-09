@@ -5,7 +5,7 @@ import { useAuth } from '@/context/AuthContext';
 
 export default function Home() {
   const router = useRouter();
-  const { user, register, login, logout } = useAuth();
+  const { user, register, login, logout, loading } = useAuth();
 
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
@@ -17,7 +17,7 @@ export default function Home() {
     if (user) {
       router.push('/accounting');
     }
-  }, [user, router]);
+  }, [user, router, loading]);
 
   const handleLogin = async () => {
     if (!loginEmail || !loginPassword) {
