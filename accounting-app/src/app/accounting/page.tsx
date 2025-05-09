@@ -27,6 +27,9 @@ export default function AccountingPage() {
   const router = useRouter();
   const [records, setRecords] = useState<Record[]>([]);
 
+  if (!user) return null; // 等待 redirect，不顯示頁面
+  if (loading) return null; 
+
   // 若未登入，自動導回首頁
   useEffect(() => {
     if (!loading && !user) {
@@ -51,7 +54,7 @@ export default function AccountingPage() {
     return () => unsubscribe();
   }, [user, router]);
 
-  if (loading) return null; 
+  
 
   // 新增記帳紀錄並存入 Firestore
   const handleAddRecord = async (record: Omit<Record, 'id'>) => {
@@ -68,7 +71,7 @@ export default function AccountingPage() {
     }
   };
 
-  if (!user) return null; // 等待 redirect，不顯示頁面
+  
 
   return (
     <main>
