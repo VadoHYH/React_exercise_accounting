@@ -5,19 +5,12 @@ import { useAuth } from '@/context/AuthContext';
 
 export default function Home() {
   const router = useRouter();
-  const { user, register, login, logout, loading } = useAuth();
+  const { user, register, login, logout} = useAuth();
 
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
   const [signupEmail, setSignupEmail] = useState('');
   const [signupPassword, setSignupPassword] = useState('');
-
-  // ✅ 新增這段：已登入就導向 /accounting
-  useEffect(() => {
-    if (!loading && user) {
-      router.push('/accounting');
-    }
-  }, [user, router, loading]);
 
   const handleLogin = async () => {
     if (!loginEmail || !loginPassword) {
