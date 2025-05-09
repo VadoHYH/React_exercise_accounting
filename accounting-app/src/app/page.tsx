@@ -14,7 +14,7 @@ export default function Home() {
 
   // ✅ 新增這段：已登入就導向 /accounting
   useEffect(() => {
-    if (user) {
+    if (!loading && user) {
       router.push('/accounting');
     }
   }, [user, router, loading]);
