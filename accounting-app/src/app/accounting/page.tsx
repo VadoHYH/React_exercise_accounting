@@ -23,13 +23,13 @@ interface Record {
 }
 
 export default function AccountingPage() {
-  const { user } = useAuth();
+  const { user,loading } = useAuth();
   const router = useRouter();
   const [records, setRecords] = useState<Record[]>([]);
 
   // 若未登入，自動導回首頁
   useEffect(() => {
-    if (!user) {
+    if (!loading && !user) {
       router.push('/');
       return;
     }
@@ -50,6 +50,8 @@ export default function AccountingPage() {
 
     return () => unsubscribe();
   }, [user, router]);
+
+  if (loading) return null; 
 
   // 新增記帳紀錄並存入 Firestore
   const handleAddRecord = async (record: Omit<Record, 'id'>) => {
