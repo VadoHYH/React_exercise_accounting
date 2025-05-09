@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState ,useEffect} from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 
@@ -11,6 +11,13 @@ export default function Home() {
   const [loginPassword, setLoginPassword] = useState('');
   const [signupEmail, setSignupEmail] = useState('');
   const [signupPassword, setSignupPassword] = useState('');
+
+  // ✅ 新增這段：已登入就導向 /accounting
+  useEffect(() => {
+    if (user) {
+      router.push('/accounting');
+    }
+  }, [user, router]);
 
   const handleLogin = async () => {
     if (!loginEmail || !loginPassword) {
