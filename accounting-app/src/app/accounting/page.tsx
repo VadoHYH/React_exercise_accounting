@@ -28,11 +28,10 @@ export default function AccountingPage() {
   const [records, setRecords] = useState<Record[]>([]);
 
   if (!user) return null; // 等待 redirect，不顯示頁面
-  if (loading) return null; 
 
   // 若未登入，自動導回首頁
   useEffect(() => {
-    if (!loading && !user) {
+    if (!user) {
       router.push('/');
       return;
     }
